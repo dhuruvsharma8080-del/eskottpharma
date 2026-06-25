@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Wise Doctor Directory</title>
+
+<style>
+body
+{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#0077cc;
+}
+
+/* CITY BUTTONS */
+.city-buttons{
+    text-align:center;
+    margin:20px 0;
+}
+
+.city-buttons button{
+    padding:10px 14px;
+    margin:5px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#0077cc;
+    color:white;
+}
+
+.city-buttons button:hover{
+    background:#005fa3;
+}
+
+/* SEARCH */
+.search-box{
+    max-width:600px;
+    margin:0 auto 20px auto;
+}
+
+#searchInput{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    border:2px solid #0077cc;
+    border-radius:8px;
+}
+
+/* LIST VIEW (CITIES) */
+#cityList{
+    max-width:600px;
+    margin:20px auto;
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.city-item{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    cursor:pointer;
+}
+
+.city-item:hover{
+    background:#f0f8ff;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+th{
+    background:#0077cc;
+    color:white;
+}
+
+th, td{
+    padding:12px;
+    border:1px solid #ddd;
+    text-align:left;
+}
+</style>
+</head>
+
+<body>
+    
+
+<h1>City Wise Doctor Directory</h1>
+
+<!-- BUTTONS -->
+<div class="city-buttons">
+    <button onclick="showAllCities()">All Cities</button>
+    <button onclick="filterCity('Faridkot')">Faridkot</button>
+    <button onclick="filterCity('Ferozepur')">Ferozepur</button>
+    <button onclick="filterCity('Moga')">Moga</button>
+    <button onclick="filterCity('Ferozepur Cantt')">Ferozepur Cantt</button>
+</div>
+
+<!-- SEARCH -->
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search doctors..." onkeyup="searchDoctors()">
+</div>
+
+<!-- CITY LIST VIEW -->
+<div id="cityList" style="display:none;"></div>
+
+<!-- TABLE -->
+<table id="doctorTable">
+    <thead>
+        <tr>
+            <th>City</th>
+            <th>Doctor Name</th>
+            <th>Specialty</th>
+            <th>Medicine</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>Faridkot</td>
+            <td>Dr. Neha Gupta</td>
+            <td>Gynecologist</td>
+            <td>Calcium</td>
+        </tr>
+
+        <tr>
+            <td>Faridkot</td>
+            <td>Dr. Rajiv Sharma</td>
+            <td>General Physician</td>
+            <td>Paracetamol</td>
+        </tr>
+
+        <tr>
+            <td>Ferozepur</td>
+            <td>Dr. Amit Verma</td>
+            <td>Cardiologist</td>
+            <td>Amlodipine</td>
+        </tr>
+
+        <tr>
+            <td>Ferozepur</td>
+            <td>Dr. Simran Kaur</td>
+            <td>Pediatrician</td>
+            <td>Child Syrup</td>
+        </tr>
+
+        <tr>
+            <td>Moga</td>
+            <td>Dr. Karan Mehta</td>
+            <td>Orthopedic</td>
+            <td>Calcium + D3</td>
+        </tr>
+
+        <tr>
+            <td>Moga</td>
+            <td>Dr. Pooja Arora</td>
+            <td>Dermatologist</td>
+            <td>Skin Cream</td>
+        </tr>
+
+        <tr>
+            <td>Ferozepur Cantt</td>
+            <td>Dr. Vikram Gill</td>
+            <td>General Physician</td>
+            <td>ORS</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<script>
+
+let allCities = ["Faridkot","Ferozepur","Moga","Ferozepur Cantt"];
+
+/* SHOW CITY LIST */
+function showAllCities(){
+    document.getElementById("doctorTable").style.display = "none";
+    document.getElementById("cityList").style.display = "block";
+
+    let box = document.getElementById("cityList");
+    box.innerHTML = "<h3>Available Cities</h3>";
+
+    allCities.forEach(city => {
+        let div = document.createElement("div");
+        div.className = "city-item";
+        div.innerText = city;
+        div.onclick = () => filterCity(city);
+        box.appendChild(div);
+    });
+}
+
+/* SHOW DOCTORS OF CITY */
+function filterCity(city){
+    document.getElementById("cityList").style.display = "none";
+    document.getElementById("doctorTable").style.display = "table";
+
+    let rows = document.querySelectorAll("#doctorTable tbody tr");
+
+    rows.forEach(row => {
+        let c = row.cells[0].innerText;
+        row.style.display = (city === "All" || c === city) ? "" : "none";
+    });
+}
+
+/* SEARCH */
+function searchDoctors(){
+    let input = document.getElementById("searchInput").value.toUpperCase();
+    let rows = document.querySelectorAll("#doctorTable tbody tr");
+
+    rows.forEach(row => {
+        let text = row.textContent.toUpperCase();
+        row.style.display = text.includes(input) ? "" : "none";
+    });
+}
+
+</script>
+
+</body>
+</html>
